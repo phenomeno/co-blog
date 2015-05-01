@@ -1,30 +1,52 @@
 {% extends 'base.html' %}
 {% block body %}
-  <h2>{{ post.title }}</h2>
-  <p>{{ post.body }}</p>
+
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <h3><a href="{{ url_for('view_post', post_id=post.id) }}">{{ post.title }}</a></h3>
+      <p>{{ post.created_time.strftime('%Y-%m-%d') }} by <strong>{{ post.author.nickname }}</strong></p>
+      <p>{{ post.body | markdown }}</p>
 
 
-  <form action="{{ url_for('comment_ok')}}" method="post">
-    <input type="hidden" name="post_id" value="{{ post.id }}">
-    <p>nickname</p>
-    <input name="nickname" type="text" placeholder="nickname"/>
-    <p>email</p>
-    <input name="email" type="text" placeholder="email"/>
-    <p>comment</p>
-    <textarea name="comment" style="height:100px"></textarea>
-    <input value="Add comment" type="submit">
-  </form>
-  {% for comment in post.comments %}
-    <p>{{ comment.nickname }}</p>
-    <p>{{ comment.email }}</p>
-    <p>{{ comment.body }}</p>
-    <p>{{ comment.updated_time }}</p>
-  {% endfor %}
+
+      <form action="{{ url_for('comment_ok')}}" method="post">
+
+        <input type="hidden" name="post_id" value="{{ post.id }}">
+
+        <div class="form-group">
+          <label>nickname</label>
+          <input style="width:200px" class="form-control" name="nickname" type="text" placeholder="nickname"/>
+        </div>
+
+        <div class="form-group">
+          <label>email</label>
+          <input style="width:200px" class="form-control" name="email" type="text" placeholder="email"/>
+        </div>
+
+        <div class="form-group">
+          <label>comment</label>
+          <textarea class="form-control" name="comment" style="height:100px; width:500px"></textarea>
+        </div>
+
+        <div class="form-group">
+          <input class="form-control" style="width:150px" value="Add comment" type="submit">
+        </div>
+
+      </form>
 
 
-  {% with messages = get_flashed_messages() %}
-    {% for message in messages %}
-      <p>{{ message }}</p>
-    {% endfor %}
-  {% endwith %}
+      {% for comment in post.comments %}
+        <p><strong style="color:#3498DB">{{ comment.nickname }}</strong> &lt;{{ comment.email }}&gt; on {{ comment.created_time.strftime('%Y-%m-%d') }}</p>
+        <p>{{ comment.body | markdown }}</p>
+      {% endfor %}
+
+
+      {% with messages = get_flashed_messages() %}
+        {% for message in messages %}
+          <p>{{ message }}</p>
+        {% endfor %}
+      {% endwith %}
+
+    </div>
+  </div>
 {% endblock %}

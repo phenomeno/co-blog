@@ -1,10 +1,38 @@
 {% extends 'base.html' %}
 
 {% block body %}
-  <h1>hi there, you are currently logged into the network</h1>
-  {% for post in posts %}
-  <p>{{ post.author.nickname }}</p>
-  <p>{{ post.title }}</p>
-  <p>{{ post.body }}</p>
-  {% endfor %}
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4 text-center">
+      <img src="/static/img/icons/svg/pencils.svg"/>
+      <h2>the monkey house</h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      {% for post in posts %}
+
+      <h3><a href="{{ url_for('view_post', post_id=post.id) }}">{{ post.title }}</a></h3>
+      <p>{{ post.created_time.strftime('%Y-%m-%d') }} by <strong>{{ post.author.nickname }}</strong></p>
+
+      <p>{{ post.body | markdown }}</p>
+
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4 text-center">
+      <nav>
+        <ul class="pager">
+          {% if page > 1 %}
+          <li><a href="?page={{ page - 1 }}">Previous</a></li>
+          {% endif %}
+          {% if page < max_page_no %}
+          <li><a href="?page={{ page + 1 }}">Next</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </div>
 {% endblock %}

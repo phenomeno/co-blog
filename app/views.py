@@ -11,8 +11,19 @@ from flask import flash
 @app.route('/')
 @app.route('/index')
 def index():
-    posts = models.Post.query.all()
-    return render_template('index.html', title='welcome',posts=posts)
+    page = int(request.args.get('page', 1))
+
+    max_page_no = models.Post.query.count()
+    if max_page_no % 3 == 0:
+        max_page_no = max_page_no / 3
+    else:
+        max_page_no = (max_page_no / 3) + 1
+
+    posts = models.Post.query.order_by('created_time desc') \
+        .offset((page-1)*3) \
+        .limit(3) \
+        .all()
+    return render_template('index.html', title='welcome', posts=posts, page=page, max_page_no=max_page_no)
 
 @app.route('/login')
 def login():

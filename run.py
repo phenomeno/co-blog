@@ -1,6 +1,7 @@
 #!flask/bin/python
 from flask.ext.script import Manager
 from app import app, db, models
+app.debug=True
 
 manager = Manager(app)
 
