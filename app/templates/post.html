@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<form action="{{ url_for('post_ok')}}" method="post">
+  <textarea name="title" style="height:30px"></textarea>
+  <textarea name="post" style="height:100px"></textarea>
+  <input value="Post" type="submit">
+</form>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block body %}
+  <h1>hi there, you are currently logged into the network</h1>
+  {% for post in posts %}
+  <p>{{ post.author.nickname }}</p>
+  <p>{{ post.title }}</p>
+  <p>{{ post.body }}</p>
+  {% endfor %}
+{% endblock %}

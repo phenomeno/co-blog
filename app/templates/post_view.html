@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block body %}
+  <h2>{{ post.title }}</h2>
+  <p>{{ post.body }}</p>
+
+
+  <form action="{{ url_for('comment_ok')}}" method="post">
+    <input type="hidden" name="post_id" value="{{ post.id }}">
+    <p>nickname</p>
+    <input name="nickname" type="text" placeholder="nickname"/>
+    <p>email</p>
+    <input name="email" type="text" placeholder="email"/>
+    <p>comment</p>
+    <textarea name="comment" style="height:100px"></textarea>
+    <input value="Add comment" type="submit">
+  </form>
+  {% for comment in post.comments %}
+    <p>{{ comment.nickname }}</p>
+    <p>{{ comment.email }}</p>
+    <p>{{ comment.body }}</p>
+    <p>{{ comment.updated_time }}</p>
+  {% endfor %}
+
+
+  {% with messages = get_flashed_messages() %}
+    {% for message in messages %}
+      <p>{{ message }}</p>
+    {% endfor %}
+  {% endwith %}
+{% endblock %}
