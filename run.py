@@ -1,6 +1,8 @@
 #!flask/bin/python
-from flask.ext.script import Manager
+from flask.ext.script import Manager, Server
 from app import app, db, models
+import os
+
 app.debug=True
 
 manager = Manager(app)
@@ -18,6 +20,8 @@ def create_user(nickname, email, password):
         u.email = email
         db.session.add(u)
         db.session.commit()
+
+manager.add_command('runserver', Server(host='0.0.0.0', port=os.environ.get('PORT', 5000)))
 
 if __name__ == '__main__':
     manager.run()
